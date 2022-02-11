@@ -2,7 +2,6 @@ from typing import Optional
 
 import logging
 
-import rich
 import typer
 
 from swagger_codegen.cli.config import load_config
@@ -34,12 +33,12 @@ def generate(
     renderer = renderer or qualname(PackageRenderer)
     endpoint = import_class(endpoint) if endpoint else EndpointDescription
 
-    rich.print(
-        f"Generating from [yellow]{uri}[/yellow] to [yellow]{directory} ({package})[/yellow]"
+    print(
+        f"Generating from {uri} to {directory} ({package})"
     )
     base_schema = load_base_schema(uri, encoding)
-    rich.print(
-        f"Loaded schema [yellow]{base_schema}[/yellow] "
+    print(
+        f"Loaded schema {base_schema} "
         f"with {base_schema.endpoints_count} endpoint(s)"
     )
 
@@ -54,7 +53,7 @@ def build(config: str = ".swagger_codegen.toml"):
 
     services = cfg.get("services", {})
     if not services:
-        rich.print(f"[red]Nothing to build: no services defined in {config}[/red]")
+        print(f"Nothing to build: no services defined in {config}")
         raise typer.Abort()
 
     endpoint_import_path = cfg.get("swagger_codegen", {}).get("endpoint")
